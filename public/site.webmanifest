@@ -1,0 +1,10 @@
+{
+  "name": "P. Siranjeevi — Software Engineer",
+  "short_name": "Siranjeevi",
+  "description": "Portfolio of P. Siranjeevi, Java full stack developer and QA automation engineer.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#14162a",
+  "theme_color": "#14162a",
+  "icons": [{ "src": "/favicon.ico", "sizes": "48x48", "type": "image/x-icon" }]
+}
