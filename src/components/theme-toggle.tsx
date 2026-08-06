@@ -7,11 +7,11 @@ function applyTheme(theme: "dark" | "light") {
 }
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [theme, setTheme] = useState<"dark" | "light">("light");
 
   useEffect(() => {
     const stored = window.localStorage.getItem("theme");
-    const next = stored === "light" || stored === "dark" ? stored : "dark";
+    const next = stored === "light" || stored === "dark" ? stored : "light";
     setTheme(next);
     applyTheme(next);
   }, []);
