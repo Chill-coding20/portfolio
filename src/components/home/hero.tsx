@@ -142,7 +142,7 @@ export function Hero() {
 
             <motion.dl
               variants={staggerChild}
-              className="mt-12 grid max-w-xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-hairline bg-hairline sm:grid-cols-4"
+              className="mt-12 grid max-w-2xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-hairline bg-hairline sm:grid-cols-3"
             >
               {stats.map((s) => (
                 <div key={s.label} className="bg-background/70 px-4 py-4 backdrop-blur">
@@ -178,6 +178,7 @@ export function Hero() {
                 width={1024}
                 height={1280}
                 fetchPriority="high"
+                decoding="async"
                 className="aspect-[4/5] w-full object-cover"
               />
               <div

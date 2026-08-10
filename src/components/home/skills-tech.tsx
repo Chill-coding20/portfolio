@@ -1,22 +1,28 @@
 import {
   Bot,
+  Code2,
+  Compass,
   Database,
   Github,
+  Globe,
   Layout,
+  Map,
   Server,
   ShieldCheck,
+  Star,
   Wrench,
   Workflow,
   ArrowUpRight,
 } from "lucide-react";
 
-import { githubActivity, profile, skillGroups, techStack } from "@/lib/portfolio";
+import { githubFocus, profile, skillGroups, techStack } from "@/lib/portfolio";
 import { Reveal, SectionHeading } from "@/components/motion-primitives";
 import { MagneticCard } from "@/components/magnetic-card";
 import { MotionLayer } from "@/motion/magnetic-layers";
 import { MotionSection } from "@/motion/motion-section";
 
 const icons = { Layout, Server, Database, Bot, ShieldCheck, Workflow, Wrench } as const;
+const focusIcons = { Star, Code2, Compass, Globe, Map } as const;
 
 export function SkillsSection() {
   return (
@@ -133,14 +139,43 @@ export function GithubSection() {
                 </a>
               </div>
 
-              <dl className="grid w-full max-w-sm grid-cols-2 gap-px overflow-hidden rounded-2xl border border-hairline bg-hairline">
-                {githubActivity.map((item) => (
-                  <div key={item.label} className="bg-background/70 px-4 py-5">
-                    <dt className="text-xs text-muted-foreground">{item.label}</dt>
-                    <dd className="mt-1 text-lg font-semibold tracking-tight">{item.value}</dd>
-                  </div>
-                ))}
-              </dl>
+              <ul className="w-full max-w-md">
+                {githubFocus.map((item) => {
+                  const Icon = focusIcons[item.icon as keyof typeof focusIcons];
+                  return (
+                    <li
+                      key={item.title}
+                      className="flex items-start gap-4 border-t border-hairline py-4 first:border-t-0 first:pt-0 last:pb-0"
+                    >
+                      <span className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-xl bg-accent text-accent-foreground">
+                        <Icon className="size-4" aria-hidden />
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="flex flex-wrap items-center justify-between gap-x-3">
+                          <span className="block text-sm font-medium">{item.title}</span>
+                          {item.href ? (
+                            <a
+                              href={item.href}
+                              target="_blank"
+                              rel="noreferrer noopener"
+                              className="group/repo inline-flex items-center gap-1 text-xs font-medium text-muted-foreground transition-colors hover:text-primary"
+                            >
+                              Open repository
+                              <ArrowUpRight
+                                className="size-3.5 transition-transform duration-300 group-hover/repo:translate-x-0.5 group-hover/repo:-translate-y-0.5"
+                                aria-hidden
+                              />
+                            </a>
+                          ) : null}
+                        </span>
+                        <span className="mt-0.5 block text-sm leading-relaxed text-muted-foreground">
+                          {item.detail}
+                        </span>
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
           </MagneticCard>
         </Reveal>

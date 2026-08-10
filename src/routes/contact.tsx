@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import { site } from "@/lib/site";
 import { ContactPanel } from "@/components/contact-panel";
 import { SectionHeading } from "@/components/motion-primitives";
 import { MotionSection } from "@/motion/motion-section";
@@ -9,14 +10,19 @@ const description =
   "Get in touch with P. Siranjeevi for full stack development and QA automation roles, freelance work or collaboration.";
 
 export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-    ],
-  }),
+  head: ({ match }) => {
+    const canonical = site.url + match.pathname;
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:url", content: canonical },
+      ],
+      links: [{ rel: "canonical", href: canonical }],
+    };
+  },
   component: ContactPage,
 });
 

@@ -116,8 +116,8 @@ function StandardCard({ project }: { project: Project }) {
               alt={`${project.title} interface preview`}
               width={1600}
               height={1008}
-              loading="eager"
-              fetchPriority="high"
+              loading="lazy"
+              decoding="async"
               className="col-start-1 row-start-1 block w-full object-cover dark:hidden"
             />
             {project.imageDark ? (
@@ -127,6 +127,7 @@ function StandardCard({ project }: { project: Project }) {
                 width={1600}
                 height={1008}
                 loading="lazy"
+                decoding="async"
                 className="col-start-1 row-start-1 hidden w-full object-cover dark:block"
               />
             ) : null}
@@ -140,6 +141,7 @@ function StandardCard({ project }: { project: Project }) {
 function ConfidentialCard({ project }: { project: Project }) {
   const details = project.details;
   if (!details) return null;
+
   return (
     <div className="grid gap-0 lg:grid-cols-[1fr_1.15fr]">
       <div className="order-2 flex flex-col justify-center p-7 sm:p-10 lg:order-1">
@@ -164,7 +166,7 @@ function ConfidentialCard({ project }: { project: Project }) {
           ))}
         </ul>
 
-        <div className="mt-8">
+        <div className="mt-6 flex flex-wrap items-center gap-3">
           <Link
             to="/projects/$slug"
             params={{ slug: project.slug }}
@@ -176,6 +178,10 @@ function ConfidentialCard({ project }: { project: Project }) {
               aria-hidden
             />
           </Link>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-hairline px-3 py-1.5 text-xs text-muted-foreground">
+            <Lock className="size-3" aria-hidden />
+            Source code and internals confidential
+          </span>
         </div>
       </div>
 

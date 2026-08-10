@@ -67,11 +67,16 @@ function computeFrame() {
   }
   cursorVelocity.set(Math.min(smoothedVelocity, motionConfig.velocity.max));
 
+  const viewportMargin = 160;
   for (const entry of entries) {
     const el = entry.getEl();
     if (!el || !el.isConnected) continue;
 
     const rect = el.getBoundingClientRect();
+    if (rect.bottom < -viewportMargin || rect.top > window.innerHeight + viewportMargin) {
+      continue;
+    }
+
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
     const dx = cursorPosition.x - centerX;

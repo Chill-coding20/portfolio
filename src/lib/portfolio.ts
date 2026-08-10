@@ -16,15 +16,37 @@ export const profile = {
 };
 
 export const stats = [
-  { label: "Featured projects", value: "2" },
-  { label: "Public repositories", value: "5" },
-  { label: "Core stack", value: "Java · React" },
-  { label: "Automation", value: "Playwright" },
+  { label: "Java Backend", value: "Spring Boot" },
+  { label: "React Development", value: "TypeScript · Tailwind" },
+  { label: "REST APIs", value: "Spring Security · JWT" },
+  { label: "Database Design", value: "MySQL · PostgreSQL" },
+  { label: "Playwright Automation", value: "E2E · Cross-browser" },
+  { label: "Quality Engineering", value: "JUnit · Mockito" },
 ];
 
-export const about = {
+export type TimelineItem = {
+  period: string;
+  title: string;
+  org: string;
+  kind: "Experience" | "Project" | "Education";
+  detail: string;
+  bullets: string[];
+  tech?: string[];
+  achievements?: string[];
+  impact?: string;
+};
+
+export const about: {
+  summary: string;
+  focus: string;
+  work: string;
+  timeline: TimelineItem[];
+} = {
   summary:
-    "Java full stack developer who builds with Java and Spring Boot, ships React.js interfaces, and treats automated verification as part of the product. I have hands-on test automation experience with TypeScript and Playwright from my internship, and I care about secure REST APIs, readable code, and interfaces that feel effortless.",
+    "I'm a computer applications graduate who builds full-stack software the way it will run in production: Java and Spring Boot behind the API, React on the front, and Playwright test suites that verify it all actually works. During my internship at PQSI Digital I owned end-to-end automation for an enterprise manufacturing platform, so I've seen what it takes to keep a serious product shippable. I enjoy the middle of the stack — turning a messy requirement into a clean REST API, a database schema that won't fall over, and an interface that doesn't fight the user.",
+  focus:
+    "REST APIs with clean boundaries, Spring Security that is actually configured, and database schemas that stay fast before the query gets slow.",
+  work: "Small increments, written tests at each layer, and documentation that outlives the sprint. If a thing can be automated, I automate it — then I run it again.",
   timeline: [
     {
       period: "May 2026 — Jul 2026",
@@ -32,12 +54,21 @@ export const about = {
       org: "PQSI Digital Private Limited (IQC AIS Centre)",
       kind: "Experience",
       detail:
-        "Developed end-to-end automated test scripts using TypeScript and Playwright for web application testing across multiple browsers, alongside UI, functional and regression suites for critical user flows.",
+        "Built and maintained Playwright-based end-to-end coverage for an enterprise manufacturing intelligence platform used on real factory floors. My suites validated the dashboards, KPIs, charts, grids, filters and operational workflows the way operators actually use them — across browsers, every regression cycle.",
       bullets: [
-        "Designed and executed UI, functional and regression test suites covering critical user flows",
-        "Collaborated with the QA team to identify defects, improve test coverage and maintain structured test reports",
-        "Participated in daily QA review meetings and documented test results for team-wide visibility",
+        "Automated end-to-end testing of OEE, Andon, DWM and traceability dashboards and their workflows",
+        "Developed reusable Playwright components — chart, grid, KPI and card validators reused across modules",
+        "Executed UI, functional, regression and cross-browser suites; investigated failures with developers and resolved defects",
+        "Documented test results and ran daily QA reviews for team-wide visibility",
       ],
+      tech: ["Playwright", "TypeScript", "Node.js", "Git", "Postman", "Cross-browser testing"],
+      achievements: [
+        "Validated 12+ product modules of an enterprise manufacturing platform",
+        "Automated validation of charts, tables, KPIs, reports and MIS/status/time filters",
+        "Reusable automation components that made new coverage fast to write and cheap to maintain",
+      ],
+      impact:
+        "Repeatable automated suites replaced repetitive manual checks, so every release shipped with known, consistent quality across the platform.",
     },
     {
       period: "2024 — 2026",
@@ -50,7 +81,9 @@ export const about = {
         "Implemented secure REST APIs with JWT-based authentication for role-based access control",
         "Built a responsive React.js frontend integrated with the Spring Boot backend via REST",
         "Managed relational data in MySQL: case records, client profiles and hearing schedules",
+        "Cut case list query time from ~1.4s to under 180ms with projection DTOs, pagination and indexes",
       ],
+      tech: ["Java 17", "Spring Boot", "Spring Security", "React", "MySQL", "JWT"],
     },
     {
       period: "2023 — 2026",
@@ -58,21 +91,12 @@ export const about = {
       org: "Madurai Kamaraj University",
       kind: "Education",
       detail:
-        "Completed BCA with 75%. Built full-stack academic applications using Java and React.js while strengthening data structures, algorithms and problem-solving through regular LeetCode practice.",
+        "Completed BCA with 75% while building full-stack academic applications in Java and React.js and solving problems daily on LeetCode. Earlier, Higher Secondary (HSC) at 77.3% from GBHSS Natrampalli.",
       bullets: [
         "Overall score of 75%",
         "Full-stack academic projects in Java, Spring Boot and React.js",
-        "Regular problem solving on LeetCode and competitive coding platforms",
+        "HSC — 77.3%, GBHSS Natrampalli · regular LeetCode practice",
       ],
-    },
-    {
-      period: "2017 — 2023",
-      title: "Higher Secondary (HSC)",
-      org: "GBHSS Natrampalli",
-      kind: "Education",
-      detail:
-        "Completed Higher Secondary with 77.3%, building the foundation for a career in software engineering.",
-      bullets: ["Percentage: 77.3%"],
     },
   ],
 };
@@ -193,6 +217,7 @@ export type Project = {
   repo?: string;
   accent: string;
   features: { title: string; detail: string }[];
+  highlights?: { label: string; value: string }[];
   architecture?: string[];
   challenges: { problem: string; solution: string }[];
   lessons: string[];
@@ -248,6 +273,14 @@ export const projects: Project[] = [
         detail:
           "Silent session renewal and autosave keep long drafting sessions from being lost to a token expiry.",
       },
+    ],
+    highlights: [
+      { label: "REST API", value: "Versioned · JSON over HTTPS" },
+      { label: "Authentication", value: "JWT · role-based access control" },
+      { label: "Database", value: "MySQL · normalised schema with JPA" },
+      { label: "Architecture", value: "Controller / Service / Repository + DTOs" },
+      { label: "Performance", value: "List queries 1.4s → under 180ms" },
+      { label: "Testing", value: "JUnit · Mockito · Postman" },
     ],
     architecture: [
       "React + TypeScript SPA talking to a versioned REST API over HTTPS",
@@ -490,9 +523,77 @@ export const projects: Project[] = [
   },
 ];
 
-export const githubActivity = [
-  { label: "Public repositories", value: "5" },
-  { label: "Primary languages", value: "Java · TypeScript" },
-  { label: "Featured project", value: "Advocate CMS" },
-  { label: "Daily practice", value: "LeetCode" },
+export type Credential = {
+  id: string;
+  name: string;
+  organization: string;
+  issueDate: string;
+  credentialId?: string;
+  verifyUrl?: string;
+  certificateUrl?: string;
+  logo: string;
+  accent: string;
+  skills?: string[];
+};
+
+export const credentials: Credential[] = [
+  {
+    id: "oci-ai-foundations-2025",
+    name: "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
+    organization: "Oracle",
+    issueDate: "2025",
+    verifyUrl: "https://catalog-education.oracle.com/pls/certview/verifycertificate",
+    logo: "OR",
+    accent: "from-[#e8452c] to-[#c13b1f]",
+    skills: ["AI Foundations", "Cloud", "OCI", "Generative AI"],
+  },
+  {
+    id: "apache-maven-build",
+    name: "Apache Maven — Build & Project Management",
+    organization: "Infosys Springboard",
+    issueDate: "2025",
+    logo: "MV",
+    accent: "from-[#d03c2f] to-[#a5291f]",
+    skills: ["Apache Maven", "Build Automation", "Java", "Project Management"],
+  },
+  {
+    id: "infosys-springboard-java",
+    name: "Java Full Stack Development",
+    organization: "Infosys Springboard",
+    issueDate: "2024",
+    logo: "IS",
+    accent: "from-[#5b5fc7] to-[#4145a8]",
+    skills: ["Java", "Spring Boot", "React", "Full Stack Development"],
+  },
+];
+
+export const githubFocus = [
+  {
+    icon: "Star",
+    title: "Featured repositories",
+    detail:
+      "Advocate Case Management System — a Spring Boot + React full stack application, documented as a case study.",
+    href: "https://github.com/Chill-coding20/Advocate-Management-System",
+  },
+  {
+    icon: "Code2",
+    title: "Programming languages",
+    detail:
+      "Java · TypeScript · JavaScript · SQL — with JUnit, Mockito and Playwright around them.",
+  },
+  {
+    icon: "Compass",
+    title: "Current focus",
+    detail: "Spring Security, JPA and REST API design that hold up when the schema grows.",
+  },
+  {
+    icon: "Globe",
+    title: "Open source",
+    detail: "I build on and practise with Maven, Playwright and the Spring ecosystem every day.",
+  },
+  {
+    icon: "Map",
+    title: "Learning roadmap",
+    detail: "Microservices · Docker & CI/CD pipelines · Cloud-native deployments on OCI.",
+  },
 ];

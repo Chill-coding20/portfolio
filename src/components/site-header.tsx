@@ -22,9 +22,19 @@ export function SiteHeader() {
   useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 24));
   useEffect(() => setOpen(false), [pathname]);
 
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open]);
+
   return (
     <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-3 sm:pt-4">
       <motion.nav
+        aria-label="Primary"
         initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -49,6 +59,7 @@ export function SiteHeader() {
                   key={item.label}
                   to={item.to}
                   {...(item.hash ? { hash: item.hash } : {})}
+                  aria-current={active ? "page" : undefined}
                   className="relative rounded-lg px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {active ? (
@@ -76,6 +87,7 @@ export function SiteHeader() {
               type="button"
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
+              aria-controls="mobile-menu"
               onClick={() => setOpen((v) => !v)}
               suppressHydrationWarning
               className="inline-flex size-9 items-center justify-center rounded-full border border-hairline bg-surface/60 md:hidden"
@@ -92,17 +104,21 @@ export function SiteHeader() {
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             className="overflow-hidden md:hidden"
           >
-            <div className="mt-3 grid gap-1 border-t border-hairline pt-3">
-              {navItems.map((item) => (
-                <Link
-                  key={item.label}
-                  to={item.to}
-                  {...(item.hash ? { hash: item.hash } : {})}
-                  className="rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-surface hover:text-foreground"
-                >
-                  {item.label}
-                </Link>
-              ))}
+            <div id="mobile-menu" className="mt-3 grid gap-1 border-t border-hairline pt-3">
+              {navItems.map((item) => {
+                const active = item.hash ? false : pathname === item.to;
+                return (
+                  <Link
+                    key={item.label}
+                    to={item.to}
+                    {...(item.hash ? { hash: item.hash } : {})}
+                    aria-current={active ? "page" : undefined}
+                    className="rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-surface hover:text-foreground"
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
             </div>
           </motion.div>
         ) : null}

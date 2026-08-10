@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { type FormEvent } from "react";
 import { Github, Linkedin, Mail, MapPin, Send } from "lucide-react";
 import { toast } from "sonner";
 
@@ -8,8 +8,6 @@ import { MagneticCard } from "@/components/magnetic-card";
 import { MotionLayer } from "@/motion/magnetic-layers";
 
 export function ContactPanel() {
-  const [sending, setSending] = useState(false);
-
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -19,18 +17,16 @@ export function ContactPanel() {
     const subject = String(data.get("subject") ?? "Portfolio enquiry");
     const message = String(data.get("message") ?? "");
 
-    setSending(true);
     const body = encodeURIComponent(`${message}\n\n—\n${name}\n${email}`);
     window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(subject)}&body=${body}`;
-    toast.success("Opening your email client", {
-      description: "If nothing happens, write to " + profile.email,
+    toast.success("Your email app should open now", {
+      description: "If nothing happens, write to " + profile.email + " directly.",
     });
-    setSending(false);
     form.reset();
   };
 
   const field =
-    "w-full rounded-xl border border-hairline bg-background/60 px-4 py-3 text-sm outline-none transition-colors duration-300 placeholder:text-muted-foreground/70 focus:border-primary/50";
+    "w-full rounded-xl border border-hairline bg-background/60 px-4 py-3 text-sm outline-none transition-colors duration-300 placeholder:text-muted-foreground/80 focus:border-primary/50";
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
@@ -42,7 +38,7 @@ export function ContactPanel() {
           glowSize={400}
           className="rounded-3xl border border-hairline bg-surface/50 p-7 sm:p-9"
         >
-          <form onSubmit={onSubmit} aria-label="Contact form">
+          <form onSubmit={onSubmit} aria-label="Contact form" aria-describedby="contact-form-note">
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label htmlFor="name" className="text-sm font-medium">
@@ -102,16 +98,29 @@ export function ContactPanel() {
             </div>
             <button
               type="submit"
-              disabled={sending}
               suppressHydrationWarning
-              className="group mt-6 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary to-primary-glow px-6 py-3 text-sm font-medium text-primary-foreground shadow-[var(--shadow-glow)] transition-transform duration-300 hover:scale-[1.02] active:scale-95 disabled:opacity-60"
+              className="group mt-6 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary to-primary-glow px-6 py-3 text-sm font-medium text-primary-foreground shadow-[var(--shadow-glow)] transition-transform duration-300 hover:scale-[1.02] active:scale-95"
             >
-              <MotionLayer layer="text">Send message</MotionLayer>
+              <MotionLayer layer="text">Open email with message</MotionLayer>
               <Send
                 className="size-4 transition-transform duration-300 group-hover:translate-x-0.5"
                 aria-hidden
               />
             </button>
+            <p
+              id="contact-form-note"
+              className="mt-3 text-xs leading-relaxed text-muted-foreground"
+            >
+              Submitting opens your email app with the message pre-filled — this site doesn&rsquo;t
+              store or send your details anywhere. You can also write to{" "}
+              <a
+                href={`mailto:${profile.email}`}
+                className="font-medium underline decoration-hairline underline-offset-2 transition-colors hover:text-foreground"
+              >
+                {profile.email}
+              </a>{" "}
+              directly.
+            </p>
           </form>
         </MagneticCard>
       </Reveal>

@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import { site } from "@/lib/site";
 import { Hero } from "@/components/home/hero";
 import { AboutSection, ExperienceSection } from "@/components/home/about-experience";
+import { CertificationsSection } from "@/components/home/certifications";
 import { GithubSection, SkillsSection, TechStackSection } from "@/components/home/skills-tech";
 import { ProjectsSection } from "@/components/home/projects";
 import { ContactPanel } from "@/components/contact-panel";
@@ -13,14 +15,19 @@ const description =
   "Portfolio of P. Siranjeevi: Spring Boot APIs, React interfaces and Playwright automation frameworks, documented as real case studies.";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-    ],
-  }),
+  head: ({ match }) => {
+    const canonical = `${site.url}${match.pathname === "/" ? "/" : match.pathname}`;
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:url", content: canonical },
+      ],
+      links: [{ rel: "canonical", href: canonical }],
+    };
+  },
   component: Index,
 });
 
@@ -30,6 +37,7 @@ function Index() {
       <Hero />
       <AboutSection />
       <ExperienceSection />
+      <CertificationsSection />
       <SkillsSection />
       <ProjectsSection />
       <TechStackSection />

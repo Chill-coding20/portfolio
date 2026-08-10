@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Download, ExternalLink } from "lucide-react";
 
+import { site } from "@/lib/site";
 import { profile } from "@/lib/portfolio";
 import { Reveal, SectionHeading } from "@/components/motion-primitives";
 
@@ -9,14 +10,19 @@ const description =
   "View and download the resume of P. Siranjeevi, Java full stack developer and QA automation engineer.";
 
 export const Route = createFileRoute("/resume")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-    ],
-  }),
+  head: ({ match }) => {
+    const canonical = site.url + match.pathname;
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:url", content: canonical },
+      ],
+      links: [{ rel: "canonical", href: canonical }],
+    };
+  },
   component: ResumePage,
 });
 

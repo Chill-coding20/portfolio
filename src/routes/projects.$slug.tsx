@@ -30,6 +30,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 
 import { projects, type Project, type ProjectDetails } from "@/lib/portfolio";
+import { site } from "@/lib/site";
 import { Reveal } from "@/components/motion-primitives";
 
 export const Route = createFileRoute("/projects/$slug")({
@@ -38,7 +39,8 @@ export const Route = createFileRoute("/projects/$slug")({
     if (!project) throw notFound();
     return { project };
   },
-  head: ({ loaderData }) => {
+  head: ({ loaderData, match }) => {
+    const canonical = site.url + match.pathname;
     if (!loaderData) {
       return {
         meta: [
@@ -55,6 +57,43 @@ export const Route = createFileRoute("/projects/$slug")({
         { property: "og:title", content: t },
         { property: "og:description", content: loaderData.project.summary },
         { property: "og:type", content: "article" },
+        { property: "og:url", content: canonical },
+      ],
+      links: [{ rel: "canonical", href: canonical }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify([
+            {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: "Projects",
+                  item: `${site.url}/#projects`,
+                },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: loaderData.project.title,
+                  item: canonical,
+                },
+              ],
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "Article",
+              headline: loaderData.project.title,
+              description: loaderData.project.summary,
+              author: { "@type": "Person", name: "P. Siranjeevi", url: site.url },
+              datePublished: loaderData.project.year,
+              keywords: loaderData.project.tech.join(", "),
+              mainEntityOfPage: canonical,
+            },
+          ]),
+        },
       ],
     };
   },
@@ -150,6 +189,7 @@ function StandardCaseStudy({ project }: { project: Project }) {
                 alt={`${project.title} dashboard screenshot`}
                 width={1600}
                 height={1008}
+                decoding="async"
                 className="col-start-1 row-start-1 w-full rounded-3xl border border-hairline shadow-[var(--shadow-soft)] dark:hidden"
               />
               {project.imageDark ? (
@@ -158,6 +198,7 @@ function StandardCaseStudy({ project }: { project: Project }) {
                   alt={`${project.title} dashboard screenshot in dark mode`}
                   width={1600}
                   height={1008}
+                  decoding="async"
                   className="col-start-1 row-start-1 hidden w-full rounded-3xl border border-hairline shadow-[var(--shadow-soft)] dark:block"
                 />
               ) : null}
