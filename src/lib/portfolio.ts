@@ -528,6 +528,8 @@ export type Credential = {
   name: string;
   organization: string;
   issueDate: string;
+  type?: string;
+  category?: "Professional Certification" | "Technical Credential";
   credentialId?: string;
   verifyUrl?: string;
   certificateUrl?: string;
@@ -542,7 +544,8 @@ export const credentials: Credential[] = [
     name: "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
     organization: "Oracle",
     issueDate: "2025",
-    verifyUrl: "https://catalog-education.oracle.com/pls/certview/verifycertificate",
+    category: "Professional Certification",
+    certificateUrl: "/certificates/oracle-ai-foundations-certificate.pdf",
     logo: "OR",
     accent: "from-[#e8452c] to-[#c13b1f]",
     skills: ["AI Foundations", "Cloud", "OCI", "Generative AI"],
@@ -552,18 +555,50 @@ export const credentials: Credential[] = [
     name: "Apache Maven — Build & Project Management",
     organization: "Infosys Springboard",
     issueDate: "2025",
+    category: "Technical Credential",
+    certificateUrl: "/certificates/apache-maven-certificate.pdf",
     logo: "MV",
     accent: "from-[#d03c2f] to-[#a5291f]",
     skills: ["Apache Maven", "Build Automation", "Java", "Project Management"],
   },
   {
-    id: "infosys-springboard-java",
-    name: "Java Full Stack Development",
+    id: "infosys-springboard-java-se-8",
+    name: "Java SE 8 Features",
     organization: "Infosys Springboard",
-    issueDate: "2024",
+    issueDate: "February 21, 2025",
+    type: "Course Completion Certificate",
+    category: "Technical Credential",
+    verifyUrl: "https://verify.onwingspan.com",
+    certificateUrl: "/certificates/java-se-8-features.pdf",
     logo: "IS",
     accent: "from-[#5b5fc7] to-[#4145a8]",
-    skills: ["Java", "Spring Boot", "React", "Full Stack Development"],
+    skills: ["Java", "Java SE 8", "Core Java"],
+  },
+  {
+    id: "infosys-springboard-hibernate-basics",
+    name: "Hibernate Framework - Basics",
+    organization: "Infosys Springboard",
+    issueDate: "February 28, 2025",
+    type: "Course Completion Certificate",
+    category: "Technical Credential",
+    verifyUrl: "https://verify.onwingspan.com",
+    certificateUrl: "/certificates/hibernate-framework-basics.pdf",
+    logo: "IS",
+    accent: "from-[#5b5fc7] to-[#4145a8]",
+    skills: ["Java", "Hibernate", "ORM", "Persistence"],
+  },
+  {
+    id: "infosys-springboard-spring-boot",
+    name: "Spring 5 Basics with Spring Boot",
+    organization: "Infosys Springboard",
+    issueDate: "March 4, 2025",
+    type: "Course Completion Certificate",
+    category: "Technical Credential",
+    verifyUrl: "https://verify.onwingspan.com",
+    certificateUrl: "/certificates/spring-5-basics-with-spring-boot.pdf",
+    logo: "IS",
+    accent: "from-[#5b5fc7] to-[#4145a8]",
+    skills: ["Spring 5", "Spring Boot", "Java", "Backend Development"],
   },
 ];
 
